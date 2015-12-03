@@ -75,8 +75,18 @@ if ls $(dirname $0)/nsupdate.d/*.config 1> /dev/null 2>&1; then
       fi
 
       # WAN_IP=`curl -s -$CONNECTION_TYPE ${IP_CHECK_SITE}| grep -Eo '\<[[:digit:]]{1,3}(\.[[:digit:]]{1,3}){3}\>'`
-      WAN_IP=`curl -s -$CONNECTION_TYPE ${IP_CHECK_SITE}`
+      # WAN_IP=`curl -s -$CONNECTION_TYPE ${IP_CHECK_SITE}`
 
+      WAN_IP=`$(dirname $0)/nsupdate.d/${LOCAL_GET_IP_SCRIPT} ${LOCAL_GET_IP_SCRIPT_PW}`
+      if [ "x$WAN_IP" == "x" ]; then
+        echo "$(date) - Not successful: ${LOCAL_GET_IP_SCRIPT}"
+         
+        WAN_IP=`curl -s -$CONNECTION_TYPE ${IP_CHECK_SITE}`
+        if [ "x$WAN_IP" == "x" ]; then
+         echo "$(date) - Not successful: curl -s -$CONNECTION_TYPE ${IP_CHECK_SITE}"
+         exit 1
+        fi
+      fi
 
       API_XML="<?xml version=\"1.0\"?>
       <methodCall>
