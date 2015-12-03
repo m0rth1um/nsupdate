@@ -8,11 +8,16 @@ Place your config files in the _nsupdate.d_ folder.
 
 ## Requirements
 
-In order to run you need to have _curl_ and _awk_ installed, as well as _drill_ or _nslookup_.
+In order to run you need to have _expect_, _curl_ and _awk_ installed, as well as _drill_ or _nslookup_.
 
 At least one config file needs to exist ending with _.config_. A "sample.config.dist" is provided.
 
 ## Changelog
+
+**2015-12-03**
+
+- added some expect/shell scripts for getting the WAN ip address from your own DSL/WAN router (e.g. fritz.box) directly (via ssh) 
+- asking foreign website for WAN IP address now only fallback
 
 **2015-07-22**
 
