@@ -44,7 +44,7 @@ expect {
             sleep 1
             
             set timeout 4
-            send -i $si -- "showroutes | grep \"dsl protocol iface\"\r"
+            send -i $si -- "/sbin/showroutes | grep \"dsl protocol iface\"\r"
             expect {
               -re "($ipFormat) $ipFormat gw.* iface.*#" {
                  set ipaddr $expect_out(1,string)
