@@ -88,6 +88,14 @@ if ls $(dirname $0)/nsupdate.d/*.config 1> /dev/null 2>&1; then
         fi
       fi
 
+      if [[ "$IPV6" == "YES" ]]; then
+        # only /64 prefix dynamic ?
+        if [[ "$IPV6_USE_ONLY_PREFIX" == "YES" ]]; then
+          WAN_PREFIX=`echo -n $WAN_IP |  grep -Eo '[[:xdigit:]]{0,4}(\:[[:xdigit:]]{0,4}){3}\:'`
+          WAN_IP="${WAN_PREFIX}${IPV6_SUBNET}"
+        fi
+      fi        
+
       API_XML="<?xml version=\"1.0\"?>
       <methodCall>
          <methodName>nameserver.updateRecord</methodName>

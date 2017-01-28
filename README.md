@@ -14,6 +14,12 @@ At least one config file needs to exist ending with _.config_. A "sample.config.
 
 ## Changelog
 
+**2017-01-28**
+
+- additional IPV6 parameters:
+- IPV6_USE_ONLY_PREFIX - YES if the final ip address should be built from the /64 prefix part and a self defined
+- IPV6_SUBNET - self defined subnet / host part
+
 **2015-12-03**
 
 - added some expect/shell scripts for getting the WAN ip address from your own DSL/WAN router (e.g. fritz.box) directly (via ssh) 

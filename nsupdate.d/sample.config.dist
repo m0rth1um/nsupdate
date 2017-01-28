@@ -28,5 +28,7 @@ INWX_PASS='PASSWORD'
 
 # The hostname that you want to update and it's ID from the inwx interface
 # You get the ID when you edit the given nameserver entry and hover the save button.
+IPV6_USE_ONLY_PREFIX="NO"
+IPV6_SUBNET=":1"
 DOMAIN="DOMAIN"
 INWX_DOMAIN_ID="123456789"
