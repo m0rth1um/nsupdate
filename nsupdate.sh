@@ -83,7 +83,7 @@ if ls $(dirname $0)/nsupdate.d/*.config 1> /dev/null 2>&1; then
          
         WAN_IP=`curl -s -$CONNECTION_TYPE ${IP_CHECK_SITE}`
         if [ "x$WAN_IP" == "x" ]; then
-         echo "$(date) - Not successful: curl -s -$CONNECTION_TYPE ${IP_CHECK_SITE}"
+         echo "$(date) - Not successful: curl -s -$CONNECTION_TYPE ${IP_CHECK_SITE} - exit"
          echo "$(date) - Not successful: curl -s -$CONNECTION_TYPE ${IP_CHECK_SITE} - exit" >> $LOG
          exit 1
         fi
