@@ -60,16 +60,16 @@ if ls $(dirname $0)/nsupdate.d/*.config 1> /dev/null 2>&1; then
 
       if [[ "$USE_DRILL" == "YES" ]]; then
          if [[ "$TYPE" == "MX" ]]; then
-         echo looking up MX records with drill currently not supported!
+          echo looking up MX records with drill currently not supported!
          exit 1;
         else
           NSLOOKUP=$(drill $DOMAIN @ns.inwx.de $TYPE | head -7 | tail -1 | awk '{print $5}')   
         fi
       else
-           if [[ "$TYPE" == "MX" ]]; then
+        if [[ "$TYPE" == "MX" ]]; then
          PART_NSLOOKUP=$(nslookup -sil -type=$TYPE $DOMAIN - ns.inwx.de | tail -2 | head -1 | cut -d' ' -f5)
          NSLOOKUP=${PART_NSLOOKUP%"."}
-         else
+        else
          NSLOOKUP=$(nslookup -sil -type=$TYPE $DOMAIN - ns.inwx.de | tail -2 | head -1 | cut -d' ' -f2)
         fi
       fi
@@ -84,6 +84,7 @@ if ls $(dirname $0)/nsupdate.d/*.config 1> /dev/null 2>&1; then
         WAN_IP=`curl -s -$CONNECTION_TYPE ${IP_CHECK_SITE}`
         if [ "x$WAN_IP" == "x" ]; then
          echo "$(date) - Not successful: curl -s -$CONNECTION_TYPE ${IP_CHECK_SITE}"
+         echo "$(date) - Not successful: curl -s -$CONNECTION_TYPE ${IP_CHECK_SITE} - exit" >> $LOG
          exit 1
         fi
       fi
@@ -94,7 +95,7 @@ if ls $(dirname $0)/nsupdate.d/*.config 1> /dev/null 2>&1; then
           WAN_PREFIX=`echo -n $WAN_IP |  grep -Eo '[[:xdigit:]]{0,4}(\:[[:xdigit:]]{0,4}){3}\:'`
           WAN_IP="${WAN_PREFIX}${IPV6_SUBNET}"
         fi
-      fi        
+      fi
 
       API_XML="<?xml version=\"1.0\"?>
       <methodCall>
