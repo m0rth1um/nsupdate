@@ -32,15 +32,16 @@ command -v drill >/dev/null 2>&1 || command -v nslookup >/dev/null 2>&1 || { ech
 LOG=$0.log
 SILENT=NO
 
+
 # Check if there are any usable config files
 if ls $(dirname $0)/nsupdate.d/*.config 1> /dev/null 2>&1; then
    
    # Loop through configs
    for f in $(dirname $0)/nsupdate.d/*.config
    do
-      if [ "$SILENT" == "NO" ]; then
-         echo "Starting nameserver update with config file $f"
-      fi
+#      if [ "$SILENT" == "NO" ]; then
+#        echo "Starting nameserver update with config file $f"
+#      fi
       ## Set record type to IPv4
       TYPE=A
       CONNECTION_TYPE=4
@@ -90,10 +91,14 @@ if ls $(dirname $0)/nsupdate.d/*.config 1> /dev/null 2>&1; then
       fi
 
       if [[ "$IPV6" == "YES" ]]; then
-        # only /64 prefix dynamic ?
+        # only /xx prefix dynamic ?
         if [[ "$IPV6_USE_ONLY_PREFIX" == "YES" ]]; then
-          WAN_PREFIX=`echo -n $WAN_IP |  grep -Eo '[[:xdigit:]]{0,4}(\:[[:xdigit:]]{0,4}){3}\:'`
+          # only 64 prefix
+          #WAN_PREFIX=`echo -n $WAN_IP |  grep -Eo '[[:xdigit:]]{0,4}(\:[[:xdigit:]]{0,4}){3}\:'`
+
+          WAN_PREFIX=`python $(dirname $0)/nsupdate.d/getPrefix.py -a $WAN_IP -p $IPV6_PREFIX_LEN`
           WAN_IP="${WAN_PREFIX}${IPV6_SUBNET}"
+          WAN_IP=`echo -n $WAN_IP | sed s/:::/::/g`
         fi
       fi
 
